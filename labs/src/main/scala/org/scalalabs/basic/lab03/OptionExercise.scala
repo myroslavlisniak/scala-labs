@@ -1,4 +1,5 @@
 package org.scalalabs.basic.lab03
+
 import scala.util.control._
 import sys._
 
@@ -25,7 +26,12 @@ object OptionExercise01 {
    * - does not exist: 					"not existing"
    */
   def roomState(rooms: Map[Int, Option[String]], room: Int): String = {
-    error("Fix me")
+    rooms.get(room) match {
+      case None => "not existing"
+      case Some(None) => "empty"
+      case Some(Some(str)) if str == "locked" => "not available"
+      case Some(Some(str)) => str
+    }
   }
 
 }
@@ -37,6 +43,7 @@ object OptionExercise02 {
    * to convert a possible numeric String (e.g. Some("12")) to an integer
    */
   def totalPeopleInRooms(rooms: Map[Int, Option[String]]): Int = {
-    error("Fix me")
+    (for (room <- rooms.values; p <- room;
+          n <- scala.util.control.Exception.allCatch.opt(p.toInt)) yield n).sum
   }
 }
