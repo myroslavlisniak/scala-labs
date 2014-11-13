@@ -15,8 +15,7 @@ object ListManipulationExercise01 {
    * 
    */
   def firstElementInList[T](l: List[T]): T = {
-    //buildin
-    null.asInstanceOf[T]
+    l.head
   }
 
   /**
@@ -25,7 +24,7 @@ object ListManipulationExercise01 {
    * https://www.scala-lang.org/docu/files/api/scala/List.html#foldLeft(B)
    */
   def sumOfList(l: List[Int]): Int = {
-    error("fix me")
+    l.sum
   }
 
   /**
@@ -37,7 +36,7 @@ object ListManipulationExercise01 {
    *  - ... etc
    */
   def lastElementInList[T](l: List[T]): T = {
-    error("fix me")
+    l.reduceLeft((prev: T, el: T)=> el)
   }
 
    /**
@@ -49,7 +48,7 @@ object ListManipulationExercise01 {
    *  - ... etc
    */
   def nthElementInList[T](n: Int, l: List[T]): T = {
-    error("fix me")
+     l.drop(n).head
   }
 
   /**
@@ -61,7 +60,7 @@ object ListManipulationExercise01 {
    *  - ... etc 
    */
   def concatLists[T](l1: List[T], l2: List[T]): List[T] = {
-    error("fix me")
+    l1 ++ l2
   }
 
   /**
@@ -73,7 +72,7 @@ object ListManipulationExercise01 {
    * 
    */
   def sortList[T <% Ordered[T]](list: List[T]): List[T] = {
-    error("fix me")
+    list.sorted
   }
 
   /**
@@ -81,7 +80,7 @@ object ListManipulationExercise01 {
    * Again, easy to implement using built-in functionality, but also possible to implement in your own free-style way.
    */
   def elementExists[T](l: List[T], e: T): Boolean = {
-    error("fix me")
+    l.contains(e)
   }
 
   /**
@@ -90,7 +89,7 @@ object ListManipulationExercise01 {
    * pattern match or some other method.
    */
   def oddElements(iList: List[Int]): List[Int] = {
-    error("fix me")
+    iList.filter(el => el % 2 == 1)
   }
 
   /**
@@ -101,7 +100,12 @@ object ListManipulationExercise01 {
    * Implement it whatever way suites you best. Hint: it can be done in a neat way using recursion. 
    */
   def tails[T](l: List[T]): List[List[T]] = {
-    error("fix me")
+   def tails0(acc: List[List[T]], l: List[T]) : List[List[T]] = {
+     if(l.isEmpty) acc :+ l
+     else
+       tails0(acc :+ l, l.tail)
+   }
+    tails0(List.empty[List[T]], l)
   }
 }
 

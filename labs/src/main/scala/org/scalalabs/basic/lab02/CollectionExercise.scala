@@ -33,7 +33,11 @@ object CollectionExercise01 {
    *
    */
   def googleCodeJamGooglerese(lines: String*): Seq[String] = {
-    error("fix me")
+    val input = "ejp mysljylc kd kxveddknmc re jsicpdrysi rbcpc ypc rtcsra dkh wyfrepkym veddknkmkrkcd de kr kd eoya kw aej tysr re ujdr lkgc jv"
+    val output = "our language is impossible to understand there are twenty six factorial possibilities so it is okay if you want to just give up"
+    val zipped = input.zip(output)
+    val keyMap = zipped.toMap
+    lines.map(str => str.map(ch => keyMap(ch)))
   }
 }
 /*========================================================== */
@@ -50,7 +54,9 @@ object CollectionExercise02 {
    * using a functional approach.
    */
   def groupAdultsPerAgeGroup(persons: Seq[Person]): Map[Int, Seq[Person]] = {
-    error("fix me")
+    val adults = persons.filter(p => p.age >= 18)
+    val sortedAdults = adults.sortBy(p => p.name)
+    sortedAdults.groupBy(p => p.age / 10 * 10)
   }
 }
 
@@ -65,8 +71,7 @@ object CollectionExercise03 {
    * checkValuesIncrease(Seq(1,2,2)) == false
    */
   def checkValuesIncrease[T <% Ordered[T]](seq: Seq[T]): Boolean =
-    error("fix me")
-
+    seq.foldLeft(true, null.asInstanceOf[T])( (p: (Boolean, T), el: T) => (p._1 && (p._2 < el), el))._1
 }
 /*========================================================== */
 
@@ -76,7 +81,8 @@ object CollectionExercise04 {
    * To keep it simple it's ok to use String.split to extract all words of a sentence.
    */
   def calcLengthLongestWord(lines: String*): Int = {
-    error("fix me")
+    val words = lines.flatMap(str => str.split("\\W+"))
+    words.map(word => word.size).max
   }
 }
 
@@ -88,7 +94,7 @@ object CollectionExercise05 {
    * E.g. Seq(1,2,3) is Seq(2)
    */
   def filterWithFoldLeft(seq: Seq[Int]): Seq[Int] = {
-    error("fix me")
+    seq.foldLeft(Seq.empty[Int])((acc: Seq[Int], el: Int) => if(el % 2 == 0) acc :+ el else acc)
   }
 
   /**
@@ -97,7 +103,11 @@ object CollectionExercise05 {
    * E.g: Seq(1,2,3) is Map(0 -> Seq(2), 1 -> Seq(1,3))
    */
   def groupByWithFoldLeft(seq: Seq[Int]): Map[Boolean, Seq[Int]] = {
-    error("fix me")
+    val zero = Map(true -> Seq.empty[Int], false -> Seq.empty[Int])
+    seq.foldLeft(zero) ((acc: Map[Boolean, Seq[Int]], el : Int) =>  {
+      val b = el % 2 ==0
+      acc.updated(b, acc (b) :+ el)
+    })
   }
 }
 
