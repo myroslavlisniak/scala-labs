@@ -1,6 +1,7 @@
 package org.scalalabs.basic.lab03
 
 import sys._
+
 /**
  * This exercise introduces you to Scala's for expression.
  *
@@ -22,18 +23,18 @@ import sys._
  */
 object ForExpressionExercise01 {
 
-   /**
+  /**
    * Helper method to calculate lowest and highest number based on
    * the amount of digits provided. The lowest and highest number (from and to)
    * is returned as a Tuple.
    * E.g. amountOfDigits = 2 -> from = 10, to = 99
    */
-  private def getFromAndTo(amountOfDigits: Int):(Int, Int) = {
+  private def getFromAndTo(amountOfDigits: Int): (Int, Int) = {
     require(amountOfDigits > 1, "amount of digits must be at least 2")
     import Math.pow
     val fromNumber = pow(10, amountOfDigits - 1).toInt
     val toNumber = pow(10, amountOfDigits).toInt - 1
-    (fromNumber, toNumber )
+    (fromNumber, toNumber)
   }
 
   /**
@@ -46,7 +47,10 @@ object ForExpressionExercise01 {
    */
   def largestPalindromWithForExpression(amountOfDigits: Int): Int = {
     val (from, to) = getFromAndTo(amountOfDigits)
-    error("Fix me")
+    val res = for (x <- from to to;
+                   y <- x to to;
+                   prod = x * y if prod.toString == prod.toString.reverse) yield prod
+    res.max
   }
 
   /**
@@ -58,6 +62,7 @@ object ForExpressionExercise01 {
    * @return largest palindrome.
    */
   def largestPalindromWithHigherOrderFunctions(amountOfDigits: Int): Int = {
-    error("Fix me")
+    val (from, to) = getFromAndTo(amountOfDigits)
+    (from to to).flatMap(x => (x to to).map(y => y * x)).filter(prod => prod.toString == prod.toString.reverse).max
   }
 }

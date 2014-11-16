@@ -25,7 +25,7 @@ object HelloWorld {
    * More on variable declarations can be found here:
    * http://programming-scala.labs.oreilly.com/ch02.html#VariableDeclarationsAndDefinitions
    */
-	val sayHello: String = "Hello"
+	val sayHello: String = "Hello from Scala"
 
 
   /**
@@ -100,7 +100,7 @@ object HelloWorldWithTraits extends HelloTrait with WorldTrait {
 }
 
 trait HelloTrait {
-	def helloMethod:String = "FixMe"
+	def helloMethod:String = "Hello"
 }
 
 trait WorldTrait {
