@@ -18,6 +18,13 @@ object Level extends Enumeration {
   val Debug, Info = Value
 } 
 import Level._
+
+trait Loggable {
+  self  =>
+   lazy val logger = SimpleLogger(self.getClass.getName)
+  def debug(msg: => Any) = logger debug msg
+  def info(msg: => Any) = logger info msg
+}
 class SimpleLogger(clazz: String) {
   import SimpleLogger._
   /**
@@ -48,18 +55,12 @@ object SimpleLogger {
   def apply(clazz: String) = new SimpleLogger(clazz)
 }
 
-class DummyService  {
-  
-  /**the logger must be removed. 
-   * Move it to a Loggable trait that can be mix-in in any class that needs logging.
-   * Finally, mix-in the Loggable trait in this class in order to log the statments
-   * in the sendSomething method*/
-  val logger = SimpleLogger(getClass().getName())
+class DummyService extends Loggable {
   
   def sendSomething(msg: Any) = {
-    logger.debug("Prepare sending")
-    logger.info(s"$msg successfully sent")
-    logger.debug("Done")
+    debug("Prepare sending")
+    info(s"$msg successfully sent")
+    debug("Done")
   }
 }
 

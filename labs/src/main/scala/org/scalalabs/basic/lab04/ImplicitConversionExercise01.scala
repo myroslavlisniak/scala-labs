@@ -28,10 +28,7 @@ object ImplicitConversionExercise01 {
   object Exercise01 {
 
     def stringToList(s: String): List[Char] = {
-      //built in: our String will be converted to Scala's RichString, because this is defined a Scala
-      //object called Predef. This is imported by the compiler by default.
-      //
-      List[Char]()
+      s.toList
     }
 
   }
@@ -51,7 +48,8 @@ object ImplicitConversionExercise01 {
         "It's " + f.fahrenheit + " fahrenheit"
       }
     }
-
+    implicit def fahrenheitToCelsium(f: Fahrenheit) = new Celsius(ConversionHelper.fahrenheit2CelsiusConversion(f.fahrenheit))
+    implicit def celsiusToFahr(c: Celsius) = new Fahrenheit(ConversionHelper.celsius2FahrenheitConversion(c.degree))
     /**
      * Use this conversion helper to convert fahrenheit values to degree celsius values
      * and vice versa in the implicit function you will define.
@@ -72,7 +70,18 @@ object ImplicitConversionExercise01 {
   // Write here an implict class that adds a camelCase method to string.
 
   object Exercise03 {
-
+    implicit class StringCamel(s:String) {
+      def camelCase() = {
+        def camelCase0(l : List[Char]) : List[Char] = {
+          l match {
+            case x::y::xs if  x == ' '=> y.toUpper::camelCase0(xs)
+            case x::xs => x::camelCase0(xs)
+            case Nil => Nil
+          }
+        }
+        camelCase0(s.toList).mkString("")
+      }
+    }
   }
 
   /**============================================================================ */
@@ -82,16 +91,18 @@ object ImplicitConversionExercise01 {
       case class DurationBuilder(timeSpan: Long) {
         def now = new DateTime().getMillis()
 
-        //    def seconds = TODO your implementation here...
+            def seconds = new RichDuration(TimeUtils seconds timeSpan)
 
-        //    def minutes = TODO your implementation here...
+            def minutes = new RichDuration(TimeUtils minutes timeSpan)
 
-        //    def hours = TODO your implementation here...
+            def hours = new RichDuration(TimeUtils hours timeSpan)
 
-        //    def days = TODO your implementation here...
+            def days = new RichDuration(TimeUtils days timeSpan)
       }
 
-      //TODO define some implicits that convert integers and longs to durations and builders to make it all work
+
+      implicit def intToDurationBuilder(value: Int) : DurationBuilder = new DurationBuilder(value)
+      implicit def longToDuration(value: Long) : Duration = new Duration(value)
 
       def seconds(in: Long) = in * 1000L
 
