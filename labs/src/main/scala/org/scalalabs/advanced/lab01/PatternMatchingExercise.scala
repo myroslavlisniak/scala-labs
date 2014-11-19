@@ -28,9 +28,12 @@ object PatternMatchingExercise {
    */
   object FileName {
     def unapply(name:String):Option[(String, String)] = {
-      //TODO implement simple argument extractor
-      None
+      val index = name.lastIndexOf('.')
+      if(index == -1) None
+      else
+        Some((name.substring(0,index), name.substring(index+1)))
     }
+
   }
 
   /**
@@ -43,8 +46,8 @@ object PatternMatchingExercise {
    */
   object Path {
     def unapplySeq(path:String):Option[Seq[String]] = {
-      //TODO implement variable argument extractor
-      None
+      val p = path.split("/").drop(1).reverse
+      Some(p)
     }
   }
 
@@ -55,8 +58,9 @@ object PatternMatchingExercise {
    * -> AdvancedPatternMatchingTest
    */
   def fileNameRetriever(path:String) = {
-    //TODO implement
-    ""
+     path match{
+       case Path(FileName(name, ext), _ *) => name
+     }
   }
 
   /*************************************************************************
@@ -69,7 +73,7 @@ object PatternMatchingExercise {
    * E.g.:
    * 2010-04-08T04:08:05.889Z;PRF;server1;1004080608005100002;Processing took 200 ms
    */
-  val PerfLogLineRE = """TODO_IMPLEMENT_REGEXP""".r
+  val PerfLogLineRE = """^(.{24});PRF;server(\d);(\d+);.+\s(\d+).*""".r
 
   /**
    * Define a regexp and use the 'loop' function to iterate over a piece of text

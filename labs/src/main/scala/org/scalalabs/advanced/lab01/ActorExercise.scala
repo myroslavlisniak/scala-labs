@@ -18,7 +18,13 @@ class EchoActor extends Actor {
   /**
    * implement the act method so that it replies any message back to the sender
    */
-  def act = exit //TODO
+  def act = {
+    while (true) {
+      receive {
+        case str: String => reply(str)
+      }
+    }
+  }
 }
 
 sealed trait CountEvent
