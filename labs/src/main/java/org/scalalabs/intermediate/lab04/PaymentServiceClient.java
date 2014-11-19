@@ -3,10 +3,9 @@ package org.scalalabs.intermediate.lab04;
 
 import scala.Function2;
 import scala.Predef$;
-import scala.collection.immutable.List;
-import scala.collection.immutable.List$;
-import scala.runtime.AbstractFunction2;
+import scala.collection.immutable.*;
 import scala.collection.immutable.$colon$colon;
+import scala.runtime.AbstractFunction2;
 
 import java.util.Date;
  
@@ -22,7 +21,11 @@ public class PaymentServiceClient {
     } 
 
     public void cardPayment(String userId, int value, Date date) {
-        // you can use new $colon$colon() for adding to a list
+        PaymentCard card = PaymentCard$.MODULE$.apply(date, userId);
+        Order order = new Order(userId, card, value);
+
+        List<Order> orders = Nil$.MODULE$.$colon$colon(order);
+        PaymentService.pay(orders);
     }
 
     public void resetState(){
@@ -30,7 +33,7 @@ public class PaymentServiceClient {
     }
 
     public void setVerboseLogMode(boolean mode){
-       //TODO insert code here
+        PaymentService$.MODULE$.verboseLogMode_$eq(mode);
     }
 
     public boolean isVerboseLogMode(){
@@ -38,22 +41,33 @@ public class PaymentServiceClient {
     }
 
     public List<Order> findAllOrders() {
-        //use  AbstractFunction2
-        //TODO insert code here
-        return null;
+        return PaymentService.getHistory();
 
     }
 
     public void voucherPayment(String userId, int value) {
-       //TODO uncommend and add implementation
-       //Order order = new Order(userId, new GiftVoucher(userId), value);
+       Order order = new Order(userId, new GiftVoucher(userId), value);
+        List<Order> orders = Nil$.MODULE$.$colon$colon(order);
+        PaymentService.pay(orders);
     }
 
 }
 
-/* Uncomment and implement
 class GiftVoucher implements Belongs, PaymentMethod {
 
     String holderName;
 
-}*/
+    GiftVoucher(String holderName) {
+        this.holderName = holderName;
+    }
+
+    @Override
+    public String holderName() {
+        return holderName;
+    }
+
+    @Override
+    public String firstName() {
+        return holderName().split(" ")[0];
+    }
+}

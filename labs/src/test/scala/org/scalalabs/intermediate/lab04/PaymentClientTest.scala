@@ -23,7 +23,7 @@ class PaymentClientTest {
   def dummyBecauseItDoesNotCompile = {
      assertEquals(true, true);
   }
- /*
+
   val paymentClient = new PaymentServiceClient()
 
   @After def resetServiceState(){
@@ -76,5 +76,5 @@ class PaymentClientTest {
     assertEquals(orders(0).amount, 186)
     assertEquals(orders(1).amount, 180)
   }
-*/
+
 }
